@@ -41,6 +41,20 @@ namespace XadrezConsole.Quadro {
             peca.Posicao = posicao;
         }
 
+        // método que retira as peças caso não seja null
+        public Peca RetirarPeca(Posicao posicao) {
+            if (peca(posicao) == null) {
+                return null;
+            }
+            /* retira uma peça do tabuleiro, marcando sua
+             posição (peça) e a do tabuleiro como nulas */
+            Peca aux = peca(posicao);
+            aux.Posicao = null;
+            Pecas[posicao.Linha, posicao.Coluna] = null;
+            return aux;
+
+        }
+
         // método que verifica se a posição digitada é válida
         public bool PosicaoValida(Posicao posicao) {
             if (posicao.Linha < 0 || posicao.Linha >= Linhas || posicao.Coluna < 0 || posicao.Coluna >= Colunas) {

@@ -15,5 +15,10 @@ namespace XadrezConsole.Quadro {
             Cor = cor;
             QtdeMovimentos = 0;
         }
+
+        // método que aumenta a quantidade de movimentos em 1
+        public void IncrementarMovimento() {
+            QtdeMovimentos++;
+        }
     }
 }
