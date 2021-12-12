@@ -3,7 +3,6 @@
 namespace XadrezConsole.Quadro.Enums {
     // enumeração com as cores das peças
     enum Cor {
-
         Branca,
         Preta,
         Amarela,

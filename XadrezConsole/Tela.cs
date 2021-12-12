@@ -3,7 +3,8 @@ using XadrezConsole.Quadro;
 
 namespace XadrezConsole {
     class Tela {
-        // método estático que imprime as peças no tabuleiro caso elas existam
+        /* método estático que mostra as peças 
+         no tabuleiro, caso exista uma peça nele */
         public static void ImprimirTabuleiro(Tabuleiro tab) {
             for (int i = 0; i < tab.Linhas; i++) {
                 for (int j = 0; j < tab.Colunas; j++) {
