@@ -1,6 +1,5 @@
 ﻿namespace XadrezConsole.Quadro {
     class Posicao {
-
         // declaração das propriedades da classe
         public int Linha { get; set; }
         public int Coluna { get; set; }
