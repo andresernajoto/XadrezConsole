@@ -12,27 +12,40 @@ namespace XadrezConsole {
                 PartidaDeXadrez partida = new PartidaDeXadrez();
 
                 while (!partida.Terminada) {
-                    Console.Clear();
-                    Tela.ImprimirTabuleiro(partida.Tab);
+                    try {
+                        Console.Clear();
+                        Tela.ImprimirTabuleiro(partida.Tab);
 
-                    Console.WriteLine();
-                    Console.Write("Origem: ");
-                    Posicao origem = Tela.LerPosicaoXadrez().ConverterPosicao();
+                        Console.WriteLine();
+                        Console.WriteLine("Turno: {0}", partida.Turno);
+                        Console.WriteLine("Aguardando jogada: {0}", partida.JogadorAtual);
 
-                    bool[,] posicoesPossiveis = partida.Tab.peca(origem).MovimentosPossiveis();
+                        Console.WriteLine();
+                        Console.Write("Origem: ");
+                        Posicao origem = Tela.LerPosicaoXadrez().ConverterPosicao();
+                        partida.ValidarOrigem(origem);
 
-                    Console.Clear();
-                    Tela.ImprimirTabuleiro(partida.Tab, posicoesPossiveis);
+                        bool[,] posicoesPossiveis = partida.Tab.peca(origem).MovimentosPossiveis();
 
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Posicao destino = Tela.LerPosicaoXadrez().ConverterPosicao();
+                        Console.Clear();
+                        Tela.ImprimirTabuleiro(partida.Tab, posicoesPossiveis);
 
-                    partida.ExecutaMovimento(origem, destino);
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Posicao destino = Tela.LerPosicaoXadrez().ConverterPosicao();
+                        partida.ValidarDestino(origem, destino);
+
+                        partida.RealizaJogada(origem, destino);
+                    } catch (TabuleiroException e) {
+                        Console.WriteLine();
+                        Console.WriteLine("Erro na jogada: {0}", e.Message);
+                        Console.ReadLine();
+                    }
                 }
             } catch (TabuleiroException e) {
+                Console.WriteLine();
                 Console.WriteLine("Erro de posicionamento: {0}", e.Message);
-            }
+            } 
         }
     }
 }

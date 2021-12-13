@@ -1,13 +1,13 @@
-﻿using System;
-using XadrezConsole.Quadro;
+﻿using XadrezConsole.Quadro;
 using XadrezConsole.Quadro.Enums;
+using XadrezConsole.Quadro.Exceptions;
 
 namespace XadrezConsole.Xadrez {
     class PartidaDeXadrez {
         // declaração das propriedades da classe
         public Tabuleiro Tab { get; private set; }
-        private int Turno;
-        private Cor JogadorAtual;
+        public int Turno { get; private set; }
+        public Cor JogadorAtual { get; private set; }
         public bool Terminada { get; private set; }
 
         /* construtor que recebe um tabuleiro de ordem 8,
@@ -33,6 +33,45 @@ namespace XadrezConsole.Xadrez {
 
             Peca pecaCapturada = Tab.RetirarPeca(destino);
             Tab.ColocarPeca(peca, destino);
+        }
+
+        // método que altera o turno e permite as jogadas
+        public void RealizaJogada(Posicao origem, Posicao destino) {
+            ExecutaMovimento(origem, destino);
+            Turno++;
+            MudaJogador();
+        }
+
+        // método que verifica as possíveis jogadas da posição de origem
+        public void ValidarOrigem(Posicao posicao) {
+            if (Tab.peca(posicao) == null) {
+                throw new TabuleiroException("Não existe peça nesta posição de origem!");
+            }
+
+            if (JogadorAtual != Tab.peca(posicao).Cor) {
+                throw new TabuleiroException("A peça de origem é de outro jogador!");
+            }
+
+            if (!Tab.peca(posicao).ExisteMovimentoPossivel()) {
+                throw new TabuleiroException("Não há movimentos possíveis para esta peça de origem!");
+            }
+        }
+
+        /* método que verifica se a peça na posição
+         de origem pode se mover para a de destino */
+        public void ValidarDestino(Posicao origem, Posicao destino) {
+            if (!Tab.peca(origem).PodeMoverPara(destino)) {
+                throw new TabuleiroException("Posição de destino inválida!");
+            }
+        }
+
+        // método que altera o jogador após a movimentação das peças
+        private void MudaJogador() {
+            if (JogadorAtual == Cor.Branca) {
+                JogadorAtual = Cor.Preta;
+            } else {
+                JogadorAtual = Cor.Branca;
+            }
         }
 
         // método que coloca todas as peças no tabuleiro

@@ -22,6 +22,8 @@ namespace XadrezConsole {
             Console.WriteLine("  a b c d e f g h");
         }
 
+        /* sobrecarga do método acima, mostrando as possíveis
+         jogadas para determinada peça do tabuleiro */
         public static void ImprimirTabuleiro(Tabuleiro tab, bool[,] posicoesPossiveis) {
             ConsoleColor fundoOriginal = Console.BackgroundColor;
             ConsoleColor fundoAlterado = ConsoleColor.DarkGray;

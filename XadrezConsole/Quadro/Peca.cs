@@ -23,5 +23,26 @@ namespace XadrezConsole.Quadro {
         public void IncrementarMovimento() {
             QtdeMovimentos++;
         }
+
+        // método que verifica se há movimento possível para ser feito
+        public bool ExisteMovimentoPossivel() {
+            bool[,] mat = MovimentosPossiveis();
+
+            for (int i = 0; i < Tab.Linhas; i++) {
+                for (int j = 0; j < Tab.Colunas; j++) {
+                    if (mat[i, j]) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /* método que verifica se a peça pode
+         se mover para determinada posição */
+        public bool PodeMoverPara(Posicao posicao) {
+            return MovimentosPossiveis()[posicao.Linha, posicao.Coluna];
+        }
     }
 }
