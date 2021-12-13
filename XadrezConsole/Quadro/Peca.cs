@@ -1,7 +1,7 @@
 ﻿using XadrezConsole.Quadro.Enums;
 
 namespace XadrezConsole.Quadro {
-    class Peca {
+    abstract class Peca {
         // declaração das propriedades da classe
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; }
@@ -15,6 +15,9 @@ namespace XadrezConsole.Quadro {
             Cor = cor;
             QtdeMovimentos = 0;
         }
+
+        // método abstrato que retorna os possíveis movimentos de uma peça
+        public abstract bool[,] MovimentosPossiveis();
 
         // método que aumenta a quantidade de movimentos em 1
         public void IncrementarMovimento() {
