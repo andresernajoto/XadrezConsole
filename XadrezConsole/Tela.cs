@@ -1,10 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
 using XadrezConsole.Quadro;
 using XadrezConsole.Quadro.Enums;
 using XadrezConsole.Xadrez;
 
 namespace XadrezConsole {
     class Tela {
+        // método que imprime os dados da partida, como turno e jogador atual
+        public static void ImprimirPartida(PartidaDeXadrez partida) {
+            ImprimirTabuleiro(partida.Tab);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partida);
+
+            Console.WriteLine();
+            Console.WriteLine("Turno: {0}", partida.Turno);
+            Console.WriteLine("Aguardando jogada: {0}", partida.JogadorAtual);
+        }
+
+        // método que imprime o conjunto das peças capturadas separadas por cores
+        public static void ImprimirPecasCapturadas(PartidaDeXadrez partida) {
+            Console.WriteLine("Peças capturadas: ");
+            
+            Console.Write("Brancas: ");
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Branca));
+            
+            Console.Write("Pretas: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Preta));
+            Console.ForegroundColor = aux;
+        }
+
+        // método que imprime o conjunto das peças capturadas
+        public static void ImprimirConjunto(HashSet<Peca> conjunto) {
+            Console.Write("[");
+            
+            foreach (Peca peca in conjunto) {
+                Console.Write(peca + " ");
+            }
+
+            Console.Write("]");
+            Console.WriteLine();
+        }
+
         /* método estático que mostra as peças 
          no tabuleiro e utiliza o método 
         ImprimirPecas para mostrar as peças */
