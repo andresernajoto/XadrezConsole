@@ -14,10 +14,19 @@ namespace XadrezConsole {
 
             Console.WriteLine();
             Console.WriteLine("Turno: {0}", partida.Turno);
-            Console.WriteLine("Aguardando jogada: {0}", partida.JogadorAtual);
-            
-            if (partida.Xeque) {
-                Console.WriteLine("XEQUE!");
+
+            if (!partida.Terminada) {
+
+                Console.WriteLine("Aguardando jogada: {0}", partida.JogadorAtual);
+
+                if (partida.Xeque) {
+                    Console.WriteLine();
+                    Console.WriteLine("XEQUE!");
+                }
+            } else {
+                Console.WriteLine();
+                Console.WriteLine("XEQUE MATE!");
+                Console.WriteLine("Vencedor: {0}", partida.JogadorAtual);
             }
         }
 
@@ -35,7 +44,7 @@ namespace XadrezConsole {
             Console.ForegroundColor = aux;
         }
 
-        // método que imprime o conjunto das peças capturadas
+        // método que imprime o conjunto das peças
         public static void ImprimirConjunto(HashSet<Peca> conjunto) {
             Console.Write("[");
             

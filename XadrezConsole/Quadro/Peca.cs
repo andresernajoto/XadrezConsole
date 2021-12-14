@@ -29,7 +29,7 @@ namespace XadrezConsole.Quadro {
             QtdeMovimentos--;
         }
 
-        // método que verifica se há movimento possível para ser feito
+        // método que verifica se há movimento possível para determinada peça
         public bool ExisteMovimentoPossivel() {
             bool[,] mat = MovimentosPossiveis();
 

@@ -18,8 +18,8 @@ namespace XadrezConsole.Xadrez {
          começando no turno 1 e o primeiro jogador a se
         movimentar é o que possui as peças brancas */
 
-        /* o fim da partida começa em falso e nos é
-         permitido colocar peças pelo construtor */
+        /* o fim da partida e o xeque começam em falso e as
+         peças são salvas numa lista, assim como as capturadas */
         public PartidaDeXadrez() {
             Tab = new Tabuleiro(8, 8);
             Turno = 1;
@@ -28,13 +28,12 @@ namespace XadrezConsole.Xadrez {
             Xeque = false;
             Pecas = new HashSet<Peca>();
             Capturadas = new HashSet<Peca>();
-            
             ColocarPecas();
         }
 
         /* faz a peça receber um movimento, saindo de sua
-         posição de origem, e se movimentando para a de
-        destino */
+         posição de origem e se movimentando para a de
+        destino. Também adiciona uma peça capturada  à lista */
         public Peca ExecutaMovimento(Posicao origem, Posicao destino) {
             Peca peca = Tab.RetirarPeca(origem);
             peca.IncrementarMovimento();
@@ -62,7 +61,8 @@ namespace XadrezConsole.Xadrez {
             Tab.ColocarPeca(peca, origem);
         }
 
-        // método que altera o turno e permite as jogadas e indica qual jogador está em xeque
+        /* método que realiza a jogada e indica qual jogador está em xeque.
+         Caso o jogador atual esteja em xeque, este não poderá se mover */
         public void RealizaJogada(Posicao origem, Posicao destino) {
             Peca pecaCapturada = ExecutaMovimento(origem, destino);
 
@@ -77,8 +77,13 @@ namespace XadrezConsole.Xadrez {
                 Xeque = false;
             }
 
-            Turno++;
-            MudaJogador();
+            // encerra a partida se o jogador estiver em xeque mate
+            if (TesteXequeMate(Adversaria(JogadorAtual))) {
+                Terminada = true;
+            } else {
+                Turno++;
+                MudaJogador();
+            }   
         }
 
         // método que verifica as possíveis jogadas da posição de origem
@@ -125,7 +130,7 @@ namespace XadrezConsole.Xadrez {
             return aux;
         }
 
-        // método que retira as peças capturadas
+        // método que retira as peças capturadas do tabuleiro
         public HashSet<Peca> PecasEmJogo(Cor cor) {
             HashSet<Peca> aux = new HashSet<Peca>();
             foreach (Peca peca in Pecas) {
@@ -138,7 +143,7 @@ namespace XadrezConsole.Xadrez {
             return aux;
         }
 
-        // método que indica quem é a peça adversária
+        // método que indica quem é a peça adversária à jogar no momento
         private Cor Adversaria(Cor cor) {
             if (cor == Cor.Branca) {
                 return Cor.Preta;
@@ -158,7 +163,8 @@ namespace XadrezConsole.Xadrez {
             return null;
         }
 
-        // método que diz quando o rei está em xeque
+        /* método que diz quando o rei está em xeque 
+         e quais seus movimentos possíveis */
         public bool EstaEmXeque(Cor cor) {
             Peca rei = Rei(cor);
 
@@ -177,6 +183,38 @@ namespace XadrezConsole.Xadrez {
             return false;
         }
 
+        /* faz um teste com todas os movimentos possíveis de uma peça do tabuleiro,
+         se acaso ao capturar uma peça deixe seu próprio rei em xeque, desfará o
+        movimento. Se por ventura isso não ocorrer, será xeque mate */
+        public bool TesteXequeMate(Cor cor) {
+            if (!EstaEmXeque(cor)) {
+                return false;
+            }
+
+            foreach (Peca peca in PecasEmJogo(cor)) {
+                bool[,] mat = peca.MovimentosPossiveis();
+
+                for (int i = 0; i < Tab.Linhas; i++) {
+                    for (int j = 0; j < Tab.Colunas; j++) {
+                        if (mat[i, j]) {
+                            Posicao origem = peca.Posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = ExecutaMovimento(origem, destino);
+
+                            bool testeXeque = EstaEmXeque(cor);
+                            DesfazMovimento(origem, destino, pecaCapturada);
+
+                            if (!testeXeque) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
         // método que adiciona uma nova peça à partida
         public void ColocarNovaPeca(char coluna, int linha, Peca peca) {
             Tab.ColocarPeca(peca, new PosicaoXadrez(coluna, linha).ConverterPosicao());
@@ -185,7 +223,7 @@ namespace XadrezConsole.Xadrez {
 
         // método que coloca todas as peças no tabuleiro
         private void ColocarPecas() {
-            ColocarNovaPeca('c', 1, new Torre(Tab, Cor.Branca));
+            /*ColocarNovaPeca('c', 1, new Torre(Tab, Cor.Branca));
             ColocarNovaPeca('d', 1, new Rei(Tab, Cor.Branca));
             ColocarNovaPeca('e', 1, new Torre(Tab, Cor.Branca));
             ColocarNovaPeca('c', 2, new Torre(Tab, Cor.Branca));
@@ -197,7 +235,14 @@ namespace XadrezConsole.Xadrez {
             ColocarNovaPeca('e', 7, new Torre(Tab, Cor.Preta));
             ColocarNovaPeca('c', 8, new Torre(Tab, Cor.Preta));
             ColocarNovaPeca('d', 8, new Rei(Tab, Cor.Preta));
-            ColocarNovaPeca('e', 8, new Torre(Tab, Cor.Preta));
+            ColocarNovaPeca('e', 8, new Torre(Tab, Cor.Preta));*/
+
+            ColocarNovaPeca('c', 1, new Torre(Tab, Cor.Branca));
+            ColocarNovaPeca('d', 1, new Rei(Tab, Cor.Branca));
+            ColocarNovaPeca('h', 7, new Torre(Tab, Cor.Branca));
+
+            ColocarNovaPeca('a', 8, new Rei(Tab, Cor.Preta));
+            ColocarNovaPeca('b', 8, new Torre(Tab, Cor.Preta));
         }
     }
 }

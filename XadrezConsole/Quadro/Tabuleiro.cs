@@ -8,7 +8,7 @@ namespace XadrezConsole.Quadro {
         private Peca[,] Pecas;
 
         /* construtor que define quantas linhas e colunas terão no tabuleiro,
-         passando as linhas e colunas para as peçãs também */
+         passando as linhas e colunas para as peças também */
         public Tabuleiro(int linhas, int colunas) {
             Linhas = linhas;
             Colunas = colunas;
@@ -41,7 +41,7 @@ namespace XadrezConsole.Quadro {
             peca.Posicao = posicao;
         }
 
-        // método que retira as peças caso não seja null
+        // método que retira a peça de sua posição caso seja null
         public Peca RetirarPeca(Posicao posicao) {
             if (peca(posicao) == null) {
                 return null;

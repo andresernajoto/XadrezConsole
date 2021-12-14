@@ -20,7 +20,7 @@ namespace XadrezConsole.Xadrez {
             return peca == null || peca.Cor != Cor;
         }
 
-        // método que aplica os possíveis movimentos do Rei
+        // método que aplica os possíveis movimentos da Torre
         public override bool[,] MovimentosPossiveis() {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas];
 

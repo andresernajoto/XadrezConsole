@@ -38,6 +38,10 @@ namespace XadrezConsole {
                         Console.ReadLine();
                     }
                 }
+
+                Console.Clear();
+                Tela.ImprimirPartida(partida);
+
             } catch (TabuleiroException e) {
                 Console.WriteLine();
                 Console.WriteLine("Erro de posicionamento: {0}", e.Message);

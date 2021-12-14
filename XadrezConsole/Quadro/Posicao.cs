@@ -4,12 +4,13 @@
         public int Linha { get; set; }
         public int Coluna { get; set; }
 
-        // construtor com a posição das Peças
+        // construtor que recebe a posição das peças
         public Posicao(int linha, int coluna) {
             Linha = linha;
             Coluna = coluna;
         }
 
+        // método que define a linha e coluna de uma peça
         public void DefinirValores(int linha, int coluna) {
             Linha = linha;
             Coluna = coluna;
