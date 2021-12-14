@@ -12,11 +12,12 @@ namespace XadrezConsole.Xadrez {
         public bool Terminada { get; private set; }
         private HashSet<Peca> Pecas;
         private HashSet<Peca> Capturadas;
+        public bool Xeque { get; private set; }
 
         /* construtor que recebe um tabuleiro de ordem 8,
          começando no turno 1 e o primeiro jogador a se
         movimentar é o que possui as peças brancas */
-        
+
         /* o fim da partida começa em falso e nos é
          permitido colocar peças pelo construtor */
         public PartidaDeXadrez() {
@@ -24,15 +25,17 @@ namespace XadrezConsole.Xadrez {
             Turno = 1;
             JogadorAtual = Cor.Branca;
             Terminada = false;
+            Xeque = false;
             Pecas = new HashSet<Peca>();
             Capturadas = new HashSet<Peca>();
+            
             ColocarPecas();
         }
 
         /* faz a peça receber um movimento, saindo de sua
          posição de origem, e se movimentando para a de
         destino */
-        public void ExecutaMovimento(Posicao origem, Posicao destino) {
+        public Peca ExecutaMovimento(Posicao origem, Posicao destino) {
             Peca peca = Tab.RetirarPeca(origem);
             peca.IncrementarMovimento();
 
@@ -42,11 +45,38 @@ namespace XadrezConsole.Xadrez {
             if (pecaCapturada != null) {
                 Capturadas.Add(pecaCapturada);
             }
+
+            return pecaCapturada;
         }
 
-        // método que altera o turno e permite as jogadas
+        // método que desfaz o movimento de uma peça caso ela esteja em xeque
+        public void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada) {
+            Peca peca = Tab.RetirarPeca(destino);
+            peca.DecrementarMovimento();
+
+            if (pecaCapturada != null) {
+                Tab.ColocarPeca(pecaCapturada, destino);
+                Capturadas.Remove(pecaCapturada);
+            }
+
+            Tab.ColocarPeca(peca, origem);
+        }
+
+        // método que altera o turno e permite as jogadas e indica qual jogador está em xeque
         public void RealizaJogada(Posicao origem, Posicao destino) {
-            ExecutaMovimento(origem, destino);
+            Peca pecaCapturada = ExecutaMovimento(origem, destino);
+
+            if (EstaEmXeque(JogadorAtual)) {
+                DesfazMovimento(origem, destino, pecaCapturada);
+                throw new TabuleiroException("Você não pode se colocar em xeque!");
+            }
+
+            if (EstaEmXeque(Adversaria(JogadorAtual))) {
+                Xeque = true;
+            } else {
+                Xeque = false;
+            }
+
             Turno++;
             MudaJogador();
         }
@@ -106,6 +136,45 @@ namespace XadrezConsole.Xadrez {
 
             aux.ExceptWith(PecasCapturadas(cor));
             return aux;
+        }
+
+        // método que indica quem é a peça adversária
+        private Cor Adversaria(Cor cor) {
+            if (cor == Cor.Branca) {
+                return Cor.Preta;
+            } else {
+                return Cor.Branca;
+            }
+        }
+
+        // método que retorna a peça sendo o Rei
+        private Peca Rei(Cor cor) {
+            foreach (Peca peca in PecasEmJogo(cor)) {
+                if (peca is Rei) {
+                    return peca;
+                }
+            }
+
+            return null;
+        }
+
+        // método que diz quando o rei está em xeque
+        public bool EstaEmXeque(Cor cor) {
+            Peca rei = Rei(cor);
+
+            if (rei == null) {
+                throw new TabuleiroException("Não existe um rei da cor " +  cor + " no tabuleiro");
+            }
+
+            foreach (Peca peca in PecasEmJogo(Adversaria(cor))) {
+                bool[,] mat = peca.MovimentosPossiveis();
+
+                if (mat[rei.Posicao.Linha, rei.Posicao.Coluna]) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // método que adiciona uma nova peça à partida

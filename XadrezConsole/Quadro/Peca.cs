@@ -24,6 +24,11 @@ namespace XadrezConsole.Quadro {
             QtdeMovimentos++;
         }
 
+        // método que diminui a quantidade de movimentos em 1
+        public void DecrementarMovimento() {
+            QtdeMovimentos--;
+        }
+
         // método que verifica se há movimento possível para ser feito
         public bool ExisteMovimentoPossivel() {
             bool[,] mat = MovimentosPossiveis();

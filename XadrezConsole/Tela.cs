@@ -15,6 +15,10 @@ namespace XadrezConsole {
             Console.WriteLine();
             Console.WriteLine("Turno: {0}", partida.Turno);
             Console.WriteLine("Aguardando jogada: {0}", partida.JogadorAtual);
+            
+            if (partida.Xeque) {
+                Console.WriteLine("XEQUE!");
+            }
         }
 
         // método que imprime o conjunto das peças capturadas separadas por cores
