@@ -104,7 +104,7 @@ namespace XadrezConsole.Xadrez {
         /* método que verifica se a peça na posição
          de origem pode se mover para a de destino */
         public void ValidarDestino(Posicao origem, Posicao destino) {
-            if (!Tab.peca(origem).PodeMoverPara(destino)) {
+            if (!Tab.peca(origem).MovimentoPossivel(destino)) {
                 throw new TabuleiroException("Posição de destino inválida!");
             }
         }

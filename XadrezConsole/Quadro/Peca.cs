@@ -44,9 +44,9 @@ namespace XadrezConsole.Quadro {
             return false;
         }
 
-        /* método que verifica se a peça pode
-         se mover para determinada posição */
-        public bool PodeMoverPara(Posicao posicao) {
+        /* método que verifica se a posição é
+         um movimento possível a ser jogado */
+        public bool MovimentoPossivel(Posicao posicao) {
             return MovimentosPossiveis()[posicao.Linha, posicao.Coluna];
         }
     }
