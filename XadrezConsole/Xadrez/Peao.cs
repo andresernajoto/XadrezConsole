@@ -15,14 +15,14 @@ namespace XadrezConsole.Xadrez {
         /* método que verifica se existe uma peça inimiga
          ocupando determinada posição no tabuleiro */
         private bool ExisteInimigo(Posicao posicao) {
-            Peca peca = Tab.peca(posicao);
-            return peca != null || peca.Cor != Cor;
+            Peca peca = Tab.Peca(posicao);
+            return peca != null && peca.Cor != Cor;
         }
 
         /* método que indica que a peça pode se mover
          caso a posição do tabuleiro esteja livre */
-        private bool PodeMover(Posicao posicao) {
-            return Tab.peca(posicao) == null;
+        private bool Livre(Posicao posicao) {
+            return Tab.Peca(posicao) == null;
         }
 
         // método que aplica os possíveis movimentos da Torre
@@ -34,13 +34,14 @@ namespace XadrezConsole.Xadrez {
             if (Cor == Cor.Branca) {
                 // uma casa acima
                 posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
-                if (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
+                if (Tab.PosicaoValida(posicao) && Livre(posicao)) {
                     mat[posicao.Linha, posicao.Coluna] = true;
                 }
 
                 // duas casas acima se não tiver se movido antes
                 posicao.DefinirValores(Posicao.Linha - 2, Posicao.Coluna);
-                if (Tab.PosicaoValida(posicao) && PodeMover(posicao) && QtdeMovimentos == 0) {
+                Posicao posicao1 = new Posicao(Posicao.Linha - 1, Posicao.Coluna);
+                if (Tab.PosicaoValida(posicao1) && Livre(posicao1) && Tab.PosicaoValida(posicao) && Livre(posicao) && QtdeMovimentos == 0) {
                     mat[posicao.Linha, posicao.Coluna] = true;
                 }
 
@@ -49,7 +50,7 @@ namespace XadrezConsole.Xadrez {
                 if (Tab.PosicaoValida(posicao) && ExisteInimigo(posicao)) {
                     mat[posicao.Linha, posicao.Coluna] = true;
                 }
-
+                
                 // captura uma peça à noroeste
                 posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
                 if (Tab.PosicaoValida(posicao) && ExisteInimigo(posicao)) {
@@ -58,13 +59,14 @@ namespace XadrezConsole.Xadrez {
             } else {
                 // uma casa abaixo
                 posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna);
-                if (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
+                if (Tab.PosicaoValida(posicao) && Livre(posicao)) {
                     mat[posicao.Linha, posicao.Coluna] = true;
                 }
 
                 // duas casas abaixo se não tiver se movido antes
                 posicao.DefinirValores(Posicao.Linha + 2, Posicao.Coluna);
-                if (Tab.PosicaoValida(posicao) && PodeMover(posicao) && QtdeMovimentos == 0) {
+                Posicao posicao1 = new Posicao(Posicao.Linha + 1, Posicao.Coluna);
+                if (Tab.PosicaoValida(posicao1) && Livre(posicao1) && Tab.PosicaoValida(posicao) && Livre(posicao) && QtdeMovimentos == 0) {
                     mat[posicao.Linha, posicao.Coluna] = true;
                 }
 

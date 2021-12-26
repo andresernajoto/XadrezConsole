@@ -16,7 +16,7 @@ namespace XadrezConsole.Xadrez {
          se o quadrado do tabuleiro está livre ou se há
         uma peça inimigo ao seu redor */
         private bool PodeMover(Posicao posicao) {
-            Peca peca = Tab.peca(posicao);
+            Peca peca = Tab.Peca(posicao);
             return peca == null || peca.Cor != Cor;
         }
 

@@ -16,7 +16,7 @@ namespace XadrezConsole.Xadrez {
          se o quadrado do tabuleiro está livre ou se há
         uma peça inimigo ao seu redor */
         private bool PodeMover(Posicao posicao) {
-            Peca peca = Tab.peca(posicao);
+            Peca peca = Tab.Peca(posicao);
             return peca == null || peca.Cor != Cor;
         }
 
@@ -31,11 +31,11 @@ namespace XadrezConsole.Xadrez {
             while (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
                 mat[posicao.Linha, posicao.Coluna] = true;
 
-                if (Tab.peca(posicao) != null && Tab.peca(posicao).Cor != Cor) {
+                if (Tab.Peca(posicao) != null && Tab.Peca(posicao).Cor != Cor) {
                     break;
                 }
 
-                posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+                posicao.DefinirValores(posicao.Linha - 1, posicao.Coluna + 1);
             }
 
             // noroeste
@@ -43,11 +43,11 @@ namespace XadrezConsole.Xadrez {
             while (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
                 mat[posicao.Linha, posicao.Coluna] = true;
 
-                if (Tab.peca(posicao) != null && Tab.peca(posicao).Cor != Cor) {
+                if (Tab.Peca(posicao) != null && Tab.Peca(posicao).Cor != Cor) {
                     break;
                 }
 
-                posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
+                posicao.DefinirValores(posicao.Linha - 1, posicao.Coluna - 1);
             }
 
             // sudeste
@@ -55,11 +55,11 @@ namespace XadrezConsole.Xadrez {
             while (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
                 mat[posicao.Linha, posicao.Coluna] = true;
 
-                if (Tab.peca(posicao) != null && Tab.peca(posicao).Cor != Cor) {
+                if (Tab.Peca(posicao) != null && Tab.Peca(posicao).Cor != Cor) {
                     break;
                 }
 
-                posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+                posicao.DefinirValores(posicao.Linha + 1, posicao.Coluna + 1);
             }
 
             // sudoeste
@@ -67,11 +67,11 @@ namespace XadrezConsole.Xadrez {
             while (Tab.PosicaoValida(posicao) && PodeMover(posicao)) {
                 mat[posicao.Linha, posicao.Coluna] = true;
 
-                if (Tab.peca(posicao) != null && Tab.peca(posicao).Cor != Cor) {
+                if (Tab.Peca(posicao) != null && Tab.Peca(posicao).Cor != Cor) {
                     break;
                 }
 
-                posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+                posicao.DefinirValores(posicao.Linha + 1, posicao.Coluna - 1);
             }
 
             return mat;

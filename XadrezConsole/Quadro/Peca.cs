@@ -16,9 +16,6 @@ namespace XadrezConsole.Quadro {
             QtdeMovimentos = 0;
         }
 
-        // método abstrato que retorna os possíveis movimentos de uma peça
-        public abstract bool[,] MovimentosPossiveis();
-
         // método que aumenta a quantidade de movimentos em 1
         public void IncrementarMovimento() {
             QtdeMovimentos++;
@@ -49,5 +46,9 @@ namespace XadrezConsole.Quadro {
         public bool MovimentoPossivel(Posicao posicao) {
             return MovimentosPossiveis()[posicao.Linha, posicao.Coluna];
         }
+
+        // método abstrato que retorna os possíveis movimentos de uma peça
+        public abstract bool[,] MovimentosPossiveis();
+
     }
 }

@@ -21,14 +21,14 @@ namespace XadrezConsole.Quadro {
         }
 
         // método que recebe as posições exatas das peças
-        public Peca peca(Posicao posicao) {
+        public Peca Peca(Posicao posicao) {
             return Pecas[posicao.Linha, posicao.Coluna];
         }
 
         // método que verifica se existe uma peça na posição informada
         public bool ExistePeca(Posicao posicao) {
             ValidarPosicao(posicao);
-            return peca(posicao) != null;
+            return Peca(posicao) != null;
         }
 
         /* método que coloca as peças no tabuleiro e lança
@@ -43,12 +43,12 @@ namespace XadrezConsole.Quadro {
 
         // método que retira a peça de sua posição caso seja null
         public Peca RetirarPeca(Posicao posicao) {
-            if (peca(posicao) == null) {
+            if (Peca(posicao) == null) {
                 return null;
             }
             /* retira uma peça do tabuleiro, marcando sua
              posição (peça) e a do tabuleiro como nulas */
-            Peca aux = peca(posicao);
+            Peca aux = Peca(posicao);
             aux.Posicao = null;
             Pecas[posicao.Linha, posicao.Coluna] = null;
             return aux;

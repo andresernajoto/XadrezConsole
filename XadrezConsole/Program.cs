@@ -21,7 +21,7 @@ namespace XadrezConsole {
                         Posicao origem = Tela.LerPosicaoXadrez().ConverterPosicao();
                         partida.ValidarOrigem(origem);
 
-                        bool[,] posicoesPossiveis = partida.Tab.peca(origem).MovimentosPossiveis();
+                        bool[,] posicoesPossiveis = partida.Tab.Peca(origem).MovimentosPossiveis();
 
                         Console.Clear();
                         Tela.ImprimirTabuleiro(partida.Tab, posicoesPossiveis);
@@ -45,7 +45,9 @@ namespace XadrezConsole {
             } catch (TabuleiroException e) {
                 Console.WriteLine();
                 Console.WriteLine("Erro de posicionamento: {0}", e.Message);
-            } 
+            }
+
+            Console.ReadLine();
         }
     }
 }
